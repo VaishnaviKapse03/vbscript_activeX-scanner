@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project specific
+test_corpus/
+output/
+learned_cache.csv
+__pycache__/
+*.pyc
