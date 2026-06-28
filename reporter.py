@@ -10,6 +10,7 @@ import csv
 import sys
 import scanner
 import activex_known
+import os
 
 
 def run_scan(folder):
@@ -78,8 +79,19 @@ def write_activex_report(output_path="output/activex_report.csv"):
 
 
 if __name__ == "__main__":
-    folder = sys.argv[1] if len(sys.argv) > 1 else "test_corpus"
+    if len(sys.argv) < 2:
+        print("Usage: python reporter.py <path_to_web_root>")
+        sys.exit(1)
+
+    folder = sys.argv[1]
+
+    if not os.path.isdir(folder):
+        print(f"Error: folder '{folder}' does not exist.")
+        sys.exit(1)
+
+    output_dir = os.path.join(folder, "output")
+    os.makedirs(output_dir, exist_ok=True)
 
     run_scan(folder)
-    write_vbscript_report()
-    write_activex_report()
+    write_vbscript_report(os.path.join(output_dir, "vbscript_report.csv"))
+    write_activex_report(os.path.join(output_dir, "activex_report.csv"))
